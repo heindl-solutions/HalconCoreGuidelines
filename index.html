@@ -1,64 +1,55 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="HalconCoreGuidelines : The HALCON Core Guidelines are a set of tried-and-true guidelines, rules, and best practices about coding in HALCON. Inspired by the CppCoreGuidelines.">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>HalconCoreGuidelines</title>
+    <meta charset="UTF-8">
+    <title>HalconCoreGuidelines by heindl-solutions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
+    <section class="page-header">
+      <h1 class="project-name">HalconCoreGuidelines</h1>
+      <h2 class="project-tagline">The HALCON Core Guidelines are a set of tried-and-true guidelines, rules, and best practices about coding in HALCON. Inspired by the CppCoreGuidelines.</h2>
+      <a href="https://github.com/heindl-solutions/HalconCoreGuidelines" class="btn">View on GitHub</a>
+      <a href="https://github.com/heindl-solutions/HalconCoreGuidelines/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/heindl-solutions/HalconCoreGuidelines/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/heindl-solutions/HalconCoreGuidelines">View on GitHub</a>
-
-          <h1 id="project_title">HalconCoreGuidelines</h1>
-          <h2 id="project_tagline">The HALCON Core Guidelines are a set of tried-and-true guidelines, rules, and best practices about coding in HALCON. Inspired by the CppCoreGuidelines.</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/heindl-solutions/HalconCoreGuidelines/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/heindl-solutions/HalconCoreGuidelines/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h2>
+    <section class="main-content">
+      <h2>
 <a id="welcome-to-halcon-core-guidelines" class="anchor" href="#welcome-to-halcon-core-guidelines" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to HALCON Core Guidelines.</h2>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here <a href="https://guides.github.com/features/mastering-markdown/">using GitHub Flavored Markdown</a>, select a template crafted by a designer, and publish. After your page is generated, you can check out the new <code>gh-pages</code> branch locally. If you’re using GitHub Desktop, simply sync your repository and you’ll see the new branch.</p>
+<p>The HALCON Core Guidelines are a result of many years of using MVTec HALCON to develop demanding machine vision applications.
+All product and company names are trademarks™ or registered® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them. </p>
 
 <h3>
 <a id="concatenation-of-tuples" class="anchor" href="#concatenation-of-tuples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Concatenation of tuples</h3>
+
+<p>Tuples can be concatenated or entries can be appended at the end of a tuple with the <code>[]</code> syntax.</p>
 
 <pre><code>SomeTuple := []
 SomeTuple := [SomeTuple, 'someEntry']
 </code></pre>
 
-<p>Reason blabla
-Example
-    SomeTuple := []
-    SomeTuple := [SomeTuple, 'someEntry']</p>
-      </section>
-    </div>
+<p><strong>Reason</strong> blabla</p>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">HalconCoreGuidelines maintained by <a href="https://github.com/heindl-solutions">heindl-solutions</a></p>
-        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+<p><strong>Example</strong></p>
+
+<pre><code>SomeTuple := []
+SomeTuple := [SomeTuple, 'someEntry']
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/heindl-solutions/HalconCoreGuidelines">HalconCoreGuidelines</a> is maintained by <a href="https://github.com/heindl-solutions">heindl-solutions</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
 
-    
+    </section>
 
+  
   </body>
 </html>
