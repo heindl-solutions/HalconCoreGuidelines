@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0.2">
+<procedure name="main">
+<interface/>
+<body>
+<l>IndexTrueFalse := 0</l>
+<l>TrueFalseTuple := ['false','true'][IndexTrueFalse]</l>
+<c></c>
+<l>read_image (Image, 'fabrik')</l>
+<l>hom_mat2d_identity (HomMat2DIdentity)</l>
+<l>hom_mat2d_rotate (HomMat2DIdentity, 0.78, 0, 0, HomMat2DRotate)</l>
+<l>for IndexTrueFalse := 0 to 1 by 1</l>
+<l>  affine_trans_image (Image, ImageAffinTrans, HomMat2DRotate, 'constant', ['false','true'][IndexTrueFalse])</l>
+<l>endfor</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

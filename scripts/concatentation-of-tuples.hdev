@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0.2">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Images, ['fabrik','monkey'])</l>
+<l>count_obj (Images, NumberImages)</l>
+<l>Features := []</l>
+<l>for Index0 := 0 to NumberImages-1 by 1</l>
+<l>  select_obj (Images, Image, Index0+1)</l>
+<l>  FindSomeFeatureValue (Image, Value)</l>
+<l>  Features := [Features, Value]</l>
+<l>endfor</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="FindSomeFeatureValue">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<oc>
+<par name="Value" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>area_center (Image, Value, __, __)</l>
+<l>return ()</l>
+</body>
+<docu id="FindSomeFeatureValue">
+<parameters>
+<parameter id="Image"/>
+<parameter id="Value"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

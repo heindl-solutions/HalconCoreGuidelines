@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0.2">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (SomeOtherObject, 'fabrik')</l>
+<l>gen_empty_obj (ManyObjects)</l>
+<l>concat_obj (ManyObjects, SomeOtherObject, ManyObjects)</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<l>gen_empty_obj (Images)</l>
+<l>for Index := 0 to 4 by 1</l>
+<l>  GrabSomeImage (Image)</l>
+<l>  concat_obj (Images, Image, Images)</l>
+<l>endfor</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="FindSomeFeatureValue">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<oc>
+<par name="Value" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>area_center (Image, Value, __, __)</l>
+<l>return ()</l>
+</body>
+<docu id="FindSomeFeatureValue">
+<parameters>
+<parameter id="Image"/>
+<parameter id="Value"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="GrabSomeImage">
+<interface>
+<oo>
+<par name="Image" base_type="iconic" dimension="0"/>
+</oo>
+</interface>
+<body>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="GrabSomeImage">
+<parameters>
+<parameter id="Image"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

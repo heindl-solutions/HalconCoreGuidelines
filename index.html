@@ -28,18 +28,88 @@ All product and company names are trademarks™ or registered® trademarks of th
 <h3>
 <a id="concatenation-of-tuples" class="anchor" href="#concatenation-of-tuples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Concatenation of tuples</h3>
 
-<p>Tuples can be concatenated or entries can be appended at the end of a tuple with the <code>[]</code> syntax.</p>
+<p>Tuples are concatenated and entries are appended at the end of a tuple with the <code>[]</code> syntax.</p>
 
-<pre><code>SomeTuple := []
+<pre><code>* Initialize
+SomeTuple := []
+* ...
 SomeTuple := [SomeTuple, 'someEntry']
+SomeTuple := [SomeTuple, 'someOtherEntry']
 </code></pre>
-
-<p><strong>Reason</strong> blabla</p>
 
 <p><strong>Example</strong></p>
 
-<pre><code>SomeTuple := []
-SomeTuple := [SomeTuple, 'someEntry']
+<pre><code>read_image (Images, ['fabrik','monkey'])
+count_obj (Images, NumberImages)
+Features := []
+for Index0 := 0 to NumberImages-1 by 1
+  select_obj (Images, Image, Index0+1)
+  FindSomeFeatureValue (Image, Value)
+  Features := [Features, Value]
+endfor
+</code></pre>
+
+<h3>
+<a id="concatenation-of-objects" class="anchor" href="#concatenation-of-objects" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Concatenation of objects</h3>
+<p>Objects are concatenated with <code>concat_obj</code>.</p>
+
+<pre><code>* Initialize
+gen_empty_obj (ManyObjects)
+* ...
+concat_obj (ManyObjects, SomeOtherObject, ManyObjects)
+* ...
+concat_obj (ManyObjects, SomeOtherObject2, ManyObjects)
+</code></pre>
+
+<p><strong>Example</strong></p>
+
+<pre><code>gen_empty_obj (Images)
+for Index := 0 to 4 by 1
+  GrabSomeImage (Image)
+  concat_obj (Images, Image, Images)
+endfor
+</code></pre>
+
+<h3>
+<a id="true-false-variants" class="anchor" href="#true-false-variants" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>True/false variants</h3>
+<p>Iterate over two variants of the same code that once uses <code>'true'</code> and in the second iteration uses <code>'false'</code>.</p>
+
+<pre><code>IndexTrueFalse := 0
+TrueFalseTuple := ['false','true'][IndexTrueFalse]
+</code></pre>
+
+<p><strong>Example</strong></p>
+
+<pre><code>for IndexTrueFalse := 0 to 1 by 1
+  affine_trans_image (Image, ImageAffinTrans, HomMat2DRotate, 'constant', ['false','true'][IndexTrueFalse])
+  * ...
+endfor
+</code></pre>
+
+<h3>
+<a id="find-matches" class="anchor" href="#find-matches" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Find matches</h3>
+<p>Use the operator <code>tuple_find</code> or the in-line operation <code>find</code> together with the check <code>find(Tuple,&nbsp;ToFind)&nbsp;>&nbsp;-1</code> to see if if an element is contained in a container tuple.</p>
+
+<pre><code>Contains := (find(Tuple, ToFind) > -1)
+</code></pre>
+
+<p><strong>Reason</strong> In using the check <code>find(Tuple, ToFind) > -1</code> instead of e.g. <code>find(Tuple, ToFind) != -1</code> care is taken of the case where the first argument is the empty tuple. In this case, the <code>if</code> branch in the following example is not taken, as expected:</p>
+
+<p><strong>Example</strong></p>
+
+<pre><code>Files := 'blister/blister_0'+[1:6]
+read_image (Images, Files)
+* ImagesToIgnore := [0,2,3]
+ImagesToIgnore := []
+
+for Index0 := 0 to |Files|-1 by 1
+  if (find(ImagesToIgnore, Index0) > -1)
+    continue
+  endif
+  select_obj (Images, Image, Index0+1)
+  dev_display (Image)
+  * ...
+endfor
 </code></pre>
 
       <footer class="site-footer">
