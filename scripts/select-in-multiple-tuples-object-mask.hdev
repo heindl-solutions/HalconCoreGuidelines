@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0.2">
+<procedure name="main">
+<interface/>
+<body>
+<l>Text := ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consetetur', 'sadipscing']</l>
+<l>SelectMask := [1,1,0,0,0,1,0]</l>
+<l>SelectedText := select_mask(Text,SelectMask)</l>
+<c>* SelectedText = ['Lorem', 'ipsum', 'consetetur']</c>
+<c></c>
+<c></c>
+<l>Filenames := ['monkey', 'mreut', 'fabrik', 'alpha1', 'alpha2']</l>
+<l>read_image (Images, Filenames)</l>
+<l>threshold (Images, Region, 128, 255)</l>
+<l>area_center (Region, Area, __, __)</l>
+<l>Mask := Area [&gt;] 200000</l>
+<l>* Mask := [0,1,0,1,1]</l>
+<l>FilenamesBigArea := select_mask(Filenames,Mask)</l>
+<l>SelectedFilenames := select_mask(Filenames,Mask)</l>
+<c>* SelectedFilenames = ['mreut', 'alpha1', 'alpha2']</c>
+<l>select_obj (Images, ObjectSelected, select_mask([1:|Mask|],Mask))</l>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

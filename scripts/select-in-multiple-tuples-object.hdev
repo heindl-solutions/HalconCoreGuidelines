@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0.2">
+<procedure name="main">
+<interface/>
+<body>
+<l>Text := ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consetetur', 'sadipscing']</l>
+<l>SelectIndices := [0,1,5]</l>
+<l>SelectedText := Text[SelectIndices]</l>
+<c>* SelectedText = ['Lorem', 'ipsum', 'consetetur']</c>
+<c></c>
+<c></c>
+<l>gen_random_region (RegionRandom, 128, 128)</l>
+<l>get_region_runs (RegionRandom, Row, ColumnBegin, ColumnEnd)</l>
+<c></c>
+<c>* Sort all chord variables by chord length</c>
+<l>tuple_sort_index (ColumnEnd - ColumnBegin + 1, Indices)</l>
+<l>RowSort := Row[Indices]</l>
+<l>ColumnBeginSort := ColumnBegin[Indices]</l>
+<l>ColumnEndSort := ColumnEnd[Indices]</l>
+<c></c>
+<c>* Get entry with maximum chord length</c>
+<l>tuple_sort_index (ColumnEnd - ColumnBegin + 1, MaxIndex)</l>
+<l>MaxIndex := MaxIndex[|MaxIndex|-1]</l>
+<l>MaxRow := Row[MaxIndex]</l>
+<l>MaxColumnBegin := ColumnBegin[MaxIndex]</l>
+<l>MaxColumnEnd := ColumnEnd[MaxIndex]</l>
+<c></c>
+<c>* Get entry with minimum chord length</c>
+<l>tuple_sort_index (ColumnEnd - ColumnBegin + 1, MinIndex)</l>
+<l>MinIndex := MinIndex[0]</l>
+<l>MinRow := Row[MinIndex]</l>
+<l>MinColumnBegin := ColumnBegin[MinIndex]</l>
+<l>MinColumnEnd := ColumnEnd[MinIndex]</l>
+<c></c>
+<c>* Select objects</c>
+<l>read_image (Images, ['fabrik', 'monkey', 'alpha1'])</l>
+<l>Indices0 := [0,2]</l>
+<l>select_obj (Images, ImagesSelected, Indices0+1) // fabrik, alpha1</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

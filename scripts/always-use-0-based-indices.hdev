@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0.2">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image (Images, ['fabrik','monkey','alpha1'])</l>
+<l>Indices0 := [0,2]</l>
+<l>select_obj (Images, ObjectSelected, Indices0+1)</l>
+<c></c>
+<l>list_image_files ('bin_switch', 'default', [], ImageFiles)</l>
+<l>read_image (Images, ImageFiles)</l>
+<c>* Train with 60% of the images</c>
+<l>TrainIndices0 := [0:int(0.60*|ImageFiles|)]</l>
+<l>TrainFiles := ImageFiles[TrainIndices0]</l>
+<l>select_obj (Images, TrainImages, TrainIndices0+1)</l>
+<c>* Test with 20% of the images</c>
+<l>TestIndices0 := [int(0.60*|ImageFiles|)+1:0.80*|ImageFiles|]</l>
+<l>TestFiles := ImageFiles[TestIndices0]</l>
+<l>select_obj (Images, TestImages, TestIndices0+1)</l>
+<c>* Cross validate with another 20% of the images</c>
+<l>CvIndices0 := [int(0.80*|ImageFiles|)+1:|ImageFiles|-1]</l>
+<l>CvFiles := ImageFiles[CvIndices0]</l>
+<l>select_obj (Images, CvImages, CvIndices0+1)</l>
+<c></c>
+<l>for Index0 := 0 to |TestFiles|-1 by 1</l>
+<l>  Filename := TestFiles[Index0]</l>
+<l>  select_obj (TestImages, Image, Index0+1)</l>
+<c>  * ...</c>
+<l>endfor</l>
+<c></c>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

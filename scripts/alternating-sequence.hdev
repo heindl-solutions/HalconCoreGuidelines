@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0.2">
+<procedure name="main">
+<interface/>
+<body>
+<c>* Generate an alternating sequence e.g. [2, 3, 1, 4, 0] for NumberImages = 5</c>
+<l>NumberImages := 5</l>
+<l>tuple_gen_sequence (1, NumberImages, 1, Sequence)</l>
+<l>AltSeq := int(pow(-1,Sequence)) * (Sequence/2) + ((NumberImages-1)/2)</l>
+<c>* AltSeq = [2,3,1,4,0]</c>
+<c></c>
+<c>* Also works for 0</c>
+<l>NumberImages := 0</l>
+<l>tuple_gen_sequence (1, NumberImages, 1, Sequence)</l>
+<l>AltSeq := int(pow(-1,Sequence)) * (Sequence/2) + ((NumberImages-1)/2)</l>
+<c>* AltSeq = []</c>
+<c></c>
+<c></c>
+<l>Filenames := 'ampoules/ampoules_' + [1:8]$'.2' + '.png'</l>
+<l>read_image (Image, Filenames)</l>
+<l>tuple_gen_sequence (1, |Filenames|, 1, Sequence)</l>
+<l>AltSeq := int(pow(-1,Sequence)) * (Sequence/2) + ((|Filenames|-1)/2)</l>
+<c>* Starting from the middle, get the match with a (dummy) distance 0</c>
+<l>BestIndex0 := []</l>
+<l>for Index0 := 0 to |AltSeq|-1 by 1</l>
+<l>  CurrentIndex0 := AltSeq[Index0]</l>
+<l>  get_distance (CurrentIndex0, Distance) // output: Distance</l>
+<l>  if (Distance = 0)</l>
+<l>    BestIndex0 := CurrentIndex0</l>
+<l>    break</l>
+<l>  endif</l>
+<l>endfor</l>
+<c></c>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="get_distance">
+<interface>
+<ic>
+<par name="CurrentIndex0" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="Distance" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>Distance := 1</l>
+<l>return ()</l>
+</body>
+<docu id="get_distance">
+<parameters>
+<parameter id="CurrentIndex0"/>
+<parameter id="Distance"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

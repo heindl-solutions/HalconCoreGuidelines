@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0.2">
+<procedure name="main">
+<interface/>
+<body>
+<l>complicated_procedure (Result)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="complicated_procedure">
+<interface>
+<oc>
+<par name="Result" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>Debug := true</l>
+<c>* ...</c>
+<l>complicated_algorithm1 (IntermedResult1)</l>
+<l>if (Debug)</l>
+<c>  * dev_display (...)</c>
+<l>  stop ()</l>
+<l>endif</l>
+<c></c>
+<l>complicated_algorithm2 (IntermedResult2)</l>
+<l>if (Debug)</l>
+<c>  * dev_display (...)</c>
+<l>  stop ()</l>
+<l>endif</l>
+<c></c>
+<l>complicated_algorithm3 (IntermedResult3)</l>
+<l>if (Debug)</l>
+<c>  * dev_display (...)</c>
+<l>  stop ()</l>
+<l>endif</l>
+<c></c>
+<c>* Inspect IntermedResult1, or IntermedResult2, or IntermedResult3</c>
+<l>while (true)</l>
+<l>  stop ()</l>
+<l>endwhile</l>
+<l>return ()</l>
+</body>
+<docu id="complicated_procedure">
+<parameters>
+<parameter id="Result"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="complicated_algorithm1">
+<interface>
+<oc>
+<par name="IntermedResult1" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>return ()</l>
+</body>
+<docu id="complicated_algorithm1">
+<parameters>
+<parameter id="IntermedResult1"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="complicated_algorithm2">
+<interface>
+<oc>
+<par name="IntermedResult2" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>return ()</l>
+</body>
+<docu id="complicated_algorithm2">
+<parameters>
+<parameter id="IntermedResult2"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="complicated_algorithm3">
+<interface>
+<oc>
+<par name="IntermedResult3" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>return ()</l>
+</body>
+<docu id="complicated_algorithm3">
+<parameters>
+<parameter id="IntermedResult3"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

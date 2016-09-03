@@ -22,8 +22,8 @@
       <h2>
 <a id="welcome-to-halcon-core-guidelines" class="anchor" href="#welcome-to-halcon-core-guidelines" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to HALCON Core Guidelines.</h2>
 
-<p>The HALCON Core Guidelines are a result of many years of using MVTec HALCON to develop demanding machine vision applications.
-All product and company names are trademarks™ or registered® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them. </p>
+<p>The HALCON Core Guidelines are a result of many years of using MVTec HALCON at <a href="http://www.heindl-solutions.com/">http://www.heindl-solutions.com/</a> to develop demanding machine vision applications.</p>
+<p>All product and company names are trademarks™ or registered® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them.</p>
 
 <h3>
 <a id="concatenation-of-tuples" class="anchor" href="#concatenation-of-tuples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Concatenation of tuples</h3>
@@ -86,14 +86,13 @@ TrueFalseTuple := ['false','true'][IndexTrueFalse]
 endfor
 </code></pre>
 
-<h3>
-<a id="find-matches" class="anchor" href="#find-matches" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Find matches</h3>
-<p>Use the operator <code>tuple_find</code> or the in-line operation <code>find</code> together with the check <code>find(Tuple,&nbsp;ToFind)&nbsp;>&nbsp;-1</code> to see if if an element is contained in a container tuple.</p>
+<h3><a id="find-matches" class="anchor" href="#find-matches" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Find matches</h3>
+<p>Use the operator <code>tuple_find</code> or the in-line operation <code>find</code> together with the check <code>find(Tuple,&nbsp;ToFind)&nbsp;&gt;&nbsp;-1</code> to see if if an element is contained in a container tuple.</p>
 
-<pre><code>Contains := (find(Tuple, ToFind) > -1)
+<pre><code>Contains := (find(Tuple, ToFind) &gt; -1)
 </code></pre>
 
-<p><strong>Reason</strong> In using the check <code>find(Tuple, ToFind) > -1</code> instead of e.g. <code>find(Tuple, ToFind) != -1</code> care is taken of the case where the first argument is the empty tuple. In this case, the <code>if</code> branch in the following example is not taken, as expected:</p>
+<p><strong>Reason</strong> In using the check <code>find(Tuple, ToFind) &gt; -1</code> instead of e.g. <code>find(Tuple, ToFind) != -1</code> care is taken of the case where the first argument is the empty tuple. In this case, the <code>if</code> branch in the following example is not taken, as expected:</p>
 
 <p><strong>Example</strong></p>
 
@@ -103,13 +102,204 @@ read_image (Images, Files)
 ImagesToIgnore := []
 
 for Index0 := 0 to |Files|-1 by 1
-  if (find(ImagesToIgnore, Index0) > -1)
+  if (find(ImagesToIgnore, Index0) &gt; -1)
     continue
   endif
   select_obj (Images, Image, Index0+1)
   dev_display (Image)
   * ...
 endfor
+</code></pre>
+
+<h3><a id="select-in-multiple-tuples-object" class="anchor" href="#select-in-multiple-tuples-object" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Selecting entries in multiple tuples or objects using indices</h3>
+<p>Entries of a tuple selected by index via the <code>[]</code> operator.</p>
+
+<pre><code>Text := ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consetetur', 'sadipscing']
+SelectMask := [0,1,5]
+SelectedText := Text[[[[SelectMask]]]]
+* SelectedText = ['Lorem', 'ipsum', 'consetetur']
+</code></pre>
+
+<p><strong>Reason</strong> After e.g. sorting according to a specific criteria in one tuple, entries of this and other tuples and objects are selected via the <code>select_mask</code> operator (tuples) or the <code>select_obj</code> operator in conjunction with the <code>select_mask</code> operator (objects).</p>
+
+<p><strong>Example</strong></p>
+
+<pre><code>gen_random_region (RegionRandom, 128, 128)
+get_region_runs (RegionRandom, Row, ColumnBegin, ColumnEnd)
+
+* Sort all chord variables by chord length
+tuple_sort_index (ColumnEnd - ColumnBegin + 1, Indices)
+RowSort := Row[Indices]
+ColumnBeginSort := ColumnBegin[Indices]
+ColumnEndSort := ColumnEnd[Indices]
+
+* Get entry with maximum chord length
+tuple_sort_index (ColumnEnd - ColumnBegin + 1, MaxIndex)
+MaxIndex := MaxIndex[|MaxIndex|-1]
+MaxRow := Row[MaxIndex]
+MaxColumnBegin := ColumnBegin[MaxIndex]
+MaxColumnEnd := ColumnEnd[MaxIndex]
+
+* Get entry with minimum chord length
+tuple_sort_index (ColumnEnd - ColumnBegin + 1, MinIndex)
+MinIndex := MinIndex[0]
+MinRow := Row[MinIndex]
+MinColumnBegin := ColumnBegin[MinIndex]
+MinColumnEnd := ColumnEnd[MinIndex]
+
+* Select objects
+read_image (Images, ['fabrik', 'monkey', 'alpha1'])
+Indices0 := [0,2]
+select_obj (Images, ImagesSelected, Indices0+1) // fabrik, alpha1
+</code></pre>
+
+<h3><a id="select-in-multiple-tuples-object-mask" class="anchor" href="#select-in-multiple-tuples-object-mask" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Selecting entries in multiple tuples or objects using a mask</h3>
+<p>Entries of a tuple are selected by a mask via the <code>select_mask</code> operator or the <code>select_obj</code> operator in conjunction with the <code>select_mask</code> operator.</p>
+
+<pre><code>Text := ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consetetur', 'sadipscing']
+SelectMask := [1,1,0,0,0,1,0]
+SelectedText := select_mask(Text,SelectMask)
+* SelectedText = ['Lorem', 'ipsum', 'consetetur']
+</code></pre>
+
+<p><strong>Reason</strong> After selecting according to a specific criteria in one tuple, entries of this and other tuples and objects are selected via the <code>select_mask</code> operator or the <code>select_obj</code> operator in conjunction with the <code>select_mask</code> operator.</p>
+
+<p><strong>Example</strong></p>
+
+<pre><code>Filenames := ['monkey', 'mreut', 'fabrik', 'alpha1', 'alpha2']
+read_image (Images, Filenames)
+threshold (Images, Region, 128, 255)
+area_center (Region, Area, __, __)
+Mask := Area [&gt;] 200000
+* Mask := [0,1,0,1,1]
+FilenamesBigArea := select_mask(Filenames,Mask)
+SelectedFilenames := select_mask(Filenames,Mask)
+* SelectedFilenames = ['mreut', 'alpha1', 'alpha2']
+select_obj (Images, ObjectSelected, select_mask([1:|Mask|],Mask))
+</code></pre>
+
+<h3><a id="always-use-0-based-indices" class="anchor" href="#always-use-0-based-indices" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Always use 0-based indices</h3>
+<p>Many operators on objects use 1-based indices, in contrast to tuples and vectors which use 0-based indices. Nevertheless, 0-based indices should be used until one of these operators is invoked. The most prominent operators that use 1-based indices are <code>select_obj</code>, <code>copy_obj</code>, <code>access_channel</code>.</p>
+
+<pre><code>select_obj (Image, ObjectSelected, Indices0+1)
+</code></pre>
+
+<p><strong>Reason</strong> It is much easier to reason about the indexing if the same index base is used everywhere in the HALCON script. As most other languages use 0-based indices, use them in HALCON code for tuples and objects. To be compatible with 1-based HALCON object indexing, add 1 in the corresponding operator call (only). </p>
+
+<p><strong>Example</strong></p>
+
+<pre><code>list_image_files ('bin_switch', 'default', [], ImageFiles)
+read_image (Images, ImageFiles)
+
+* Train with 60% of the images
+TrainIndices0 := [0:int(0.60*|ImageFiles|)]
+TrainFiles := ImageFiles[TrainIndices0]
+select_obj (Images, TrainImages, TrainIndices0+1)
+
+* Test with 20% of the images
+TestIndices0 := [int(0.60*|ImageFiles|)+1:0.80*|ImageFiles|]
+TestFiles := ImageFiles[TestIndices0]
+select_obj (Images, TestImages, TestIndices0+1)
+
+* Cross validate with another 20% of the images
+CvIndices0 := [int(0.80*|ImageFiles|)+1:|ImageFiles|-1]
+CvFiles := ImageFiles[CvIndices0]
+select_obj (Images, CvImages, CvIndices0+1)
+
+for Index0 := 0 to |TestFiles|-1 by 1
+  Filename := TestFiles[Index0]
+  select_obj (TestImages, Image, Index0+1)
+  * ...
+endfor
+</code></pre>
+
+<h3><a id="alternating-sequence" class="anchor" href="#alternating-sequence" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Generate alternating sequences</h3>
+<p>Alternating sequences come in handy to start with an algorithm in the middle and then making your way towards the lower and upper bound.</p>
+
+<pre><code>* Generate an alternating sequence e.g. [2, 3, 1, 4, 0] for NumberImages = 5
+tuple_gen_sequence (1, NumberImages, 1, Sequence)
+AltSeq := int(pow(-1,Sequence)) * (Sequence/2) + ((NumberImages-1)/2)
+* AltSeq = [2,3,1,4,0]
+
+* Also works for 0
+NumberImages := 0
+tuple_gen_sequence (1, NumberImages, 1, Sequence)
+AltSeq := int(pow(-1,Sequence)) * (Sequence/2) + ((NumberImages-1)/2)
+* AltSeq = []
+</code></pre>
+
+<p><strong>Example</strong></p>
+
+<pre><code>Filenames := 'ampoules/ampoules_' + [1:8]$'.2' + '.png'
+read_image (Image, Filenames)
+tuple_gen_sequence (1, |Filenames|, 1, Sequence)
+AltSeq := int(pow(-1,Sequence)) * (Sequence/2) + ((|Filenames|-1)/2)
+* Starting from the middle, get the match with a (dummy) distance 0
+BestIndex0 := []
+for Index0 := 0 to |AltSeq|-1 by 1
+  CurrentIndex0 := AltSeq[Index0]
+  get_distance (CurrentIndex0, Distance) // output: Distance
+  if (Distance = 0)
+    BestIndex0 := CurrentIndex0
+    break
+  endif
+endfor
+</code></pre>
+
+<h3><a id="stay-in-proc" class="anchor" href="#stay-in-proc" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Stay in procedure</h3>
+<p>To be able to inspect intermediary results it is useful to stay with the HDevelop debugging in a procedure. A breakpoint might not be sufficient as it might easily be skipped when pressing F5 too often. Continue by setting the program counter (PC) to the return statement manually by clicking with the mouse on the program line number.
+</p>
+
+<pre><code>while (true)
+  stop ()
+endwhile
+</code></pre>
+
+<p><strong>Example</strong></p>
+
+<pre><code>
+* complicated_procedure (: : : Result)
+Debug := true
+* ...
+complicated_algorithm1 (IntermedResult1)
+if (Debug)
+  * dev_display (...)
+  stop ()
+endif
+
+complicated_algorithm2 (IntermedResult2)
+if (Debug)
+  * dev_display (...)
+  stop ()
+endif
+
+complicated_algorithm3 (IntermedResult3)
+if (Debug)
+  * dev_display (...)
+  stop ()
+endif
+
+* Inspect IntermedResult1, or IntermedResult2, or IntermedResult3
+while (true)
+  stop ()
+endwhile
+Result := IntermedResult1 + IntermedResult2 + IntermedResult3 
+return ()
+</code></pre>
+
+<h3><a id="left-hand-zeroes" class="anchor" href="#left-hand-zeroes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Left-hand zeros</h3>
+<p>Convert numbers to strings with left-hand zeros where needed using the <code>$'.DIGITS'</code> syntax (where DIGITS has to be replaced by the target number of digits)</p>
+
+<pre><code>Indices := [1,2,3,10,999]
+IndicesStr := Indices$'.2'
+* IndicesStr = ['01','02','03','10','999']
+</code></pre>
+
+<p><strong>Example</strong></p>
+
+<pre><code>Filenames := 'ampoules/ampoules_' + [1:22]$'.2' + '.png'
+* Filenames = ['ampoules/ampoules_01.png', 'ampoules/ampoules_02.png', ...]
+read_image (Image, Filenames)
 </code></pre>
 
       <footer class="site-footer">
