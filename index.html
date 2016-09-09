@@ -302,6 +302,62 @@ IndicesStr := Indices$'.2'
 read_image (Image, Filenames)
 </code></pre>
 
+<h3><a id="always-clear-output-parameters" class="anchor" href="#always-clear-output-parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Clear output parameters of procedures</h3>
+<p>Always clear the output parameters in HDevelop/HDevEngine procedures. Without clearing, the output parameters might behave differently in scripted HDevelop code and in exported (C++, C#, ...) code.</p>
+
+<pre><code>procedure TestWithClear (: : : MyTuple, MyVector)
+  MyTuple := []
+  MyVector.clear()
+  * ... 
+</code></pre>
+
+<p><strong>Reason</strong> HDevelop (tested with 12.0.2) clears output tuples and output vectors on first write access. If there is no write access, the original value of the output variable will not be modified. If there is a write operation, in HDevelop the tuple/vector is cleared before the first write operation, while in exported code the referenced output tuple/vector is used *without* clearing. So the behavior of exported and non-exported code is different. To avoid confusion (and hard to find bugs), always clear your output tuples/vectors in the first lines of your procedure.</p>
+
+<p><strong>Example</strong></p>
+
+<pre><code># Local procedures 
+procedure TestWithoutClear (: : : MyTuple, MyVector)
+  MyTuple[0] := 'zero'
+  MyTuple[1] := 'one'
+  * 
+  MyVector.at(0) := 'zero'
+  MyVector.at(1) := 'one'
+  return ()
+
+
+procedure TestWithClear (: : : MyTuple, MyVector)
+  MyTuple := []
+  MyVector.clear()
+  * 
+  MyTuple[0] := 'zero'
+  MyTuple[1] := 'one'
+  * 
+  MyVector.at(0) := 'zero'
+  MyVector.at(1) := 'one'
+  MyVector.at(0) := 'zero'
+  MyVector.at(1) := 'one'
+  return ()
+
+
+# Main procedure 
+
+  MyTuple0 := [0,1,2]
+  MyVector0 := {0,1,2}
+  TestWithoutClear (MyTuple0, MyVector0)
+  # std::cout << "after TestWithoutClear, MyTuple0=" << hv_MyTuple0.ToString().Text() << std::endl;
+  # std::cout << "after TestWithoutClear, MyVector0=" << hvec_MyVector0.ToString().Text() << std::endl;
+  * MyVector0 in HDevelop: {['zero'],['one']}
+  * MyVector0 in C++: {['zero'],['one'], [2]} !!
+  * 
+  MyTuple1 := [0,1,2]
+  MyVector1 := {0,1,2}
+  TestWithClear (MyTuple1, MyVector1)
+  # std::cout << "after TestWithClear, MyTuple1=" << hv_MyTuple1.ToString().Text() << std::endl;
+  # std::cout << "after TestWithClear, MyVector1=" << hvec_MyVector1.ToString().Text() << std::endl;
+  * MyVector1 in HDevelop: {['zero'],['one']}
+  * MyVector1 in C++: {['zero'],['one']}
+</code></pre>
+
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/heindl-solutions/HalconCoreGuidelines">HalconCoreGuidelines</a> is maintained by <a href="https://github.com/heindl-solutions">heindl-solutions</a>.</span>
 

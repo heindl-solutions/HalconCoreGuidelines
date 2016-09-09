@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0.2">
+<procedure name="main">
+<interface/>
+<body>
+<l>MyTuple0 := [0,1,2]</l>
+<l>MyVector0 := {0,1,2}</l>
+<l>TestWithoutClear (MyTuple0, MyVector0)</l>
+<l># std::cout &lt;&lt; "after TestWithoutClear, MyTuple0=" &lt;&lt; hv_MyTuple0.ToString().Text() &lt;&lt; std::endl;</l>
+<l># std::cout &lt;&lt; "after TestWithoutClear, MyVector0=" &lt;&lt; hvec_MyVector0.ToString().Text() &lt;&lt; std::endl;</l>
+<c>* MyVector0 in HDevelop: {['zero'],['one']}</c>
+<c>* MyVector0 in C++: {['zero'],['one'], [2]} !!</c>
+<c></c>
+<l>MyTuple1 := [0,1,2]</l>
+<l>MyVector1 := {0,1,2}</l>
+<l>TestWithClear (MyTuple1, MyVector1)</l>
+<l># std::cout &lt;&lt; "after TestWithClear, MyTuple1=" &lt;&lt; hv_MyTuple1.ToString().Text() &lt;&lt; std::endl;</l>
+<l># std::cout &lt;&lt; "after TestWithClear, MyVector1=" &lt;&lt; hvec_MyVector1.ToString().Text() &lt;&lt; std::endl;</l>
+<c>* MyVector1 in HDevelop: {['zero'],['one']}</c>
+<c>* MyVector1 in C++: {['zero'],['one']}</c>
+<c></c>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="TestWithoutClear">
+<interface>
+<oc>
+<par name="MyTuple" base_type="ctrl" dimension="0"/>
+<par name="MyVector" base_type="ctrl" dimension="1"/>
+</oc>
+</interface>
+<body>
+<l>MyTuple[0] := 'zero'</l>
+<l>MyTuple[1] := 'one'</l>
+<c></c>
+<l>MyVector.at(0) := 'zero'</l>
+<l>MyVector.at(1) := 'one'</l>
+<l>return ()</l>
+</body>
+<docu id="TestWithoutClear">
+<parameters>
+<parameter id="MyTuple"/>
+<parameter id="MyVector"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="TestWithClear">
+<interface>
+<oc>
+<par name="MyTuple" base_type="ctrl" dimension="0"/>
+<par name="MyVector" base_type="ctrl" dimension="1"/>
+</oc>
+</interface>
+<body>
+<l>MyTuple := []</l>
+<l>MyVector.clear()</l>
+<c></c>
+<l>MyTuple[0] := 'zero'</l>
+<l>MyTuple[1] := 'one'</l>
+<c></c>
+<l>MyVector.at(0) := 'zero'</l>
+<l>MyVector.at(1) := 'one'</l>
+<l>MyVector.at(0) := 'zero'</l>
+<l>MyVector.at(1) := 'one'</l>
+<l>return ()</l>
+</body>
+<docu id="TestWithClear">
+<parameters>
+<parameter id="MyTuple"/>
+<parameter id="MyVector"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>
