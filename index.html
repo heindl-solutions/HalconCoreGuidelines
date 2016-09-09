@@ -116,7 +116,7 @@ endfor
 
 <pre><code>Text := ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consetetur', 'sadipscing']
 SelectMask := [0,1,5]
-SelectedText := Text[[[[SelectMask]]]]
+SelectedText := Text[SelectMask]
 * SelectedText = ['Lorem', 'ipsum', 'consetetur']
 </code></pre>
 
@@ -176,6 +176,7 @@ FilenamesBigArea := select_mask(Filenames,Mask)
 SelectedFilenames := select_mask(Filenames,Mask)
 * SelectedFilenames = ['mreut', 'alpha1', 'alpha2']
 select_obj (Images, ObjectSelected, select_mask([1:|Mask|],Mask))
+* or use HALCON's predefined procedure select_mask_obj
 </code></pre>
 
 <h3><a id="always-use-0-based-indices" class="anchor" href="#always-use-0-based-indices" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Always use 0-based indices</h3>
@@ -213,7 +214,7 @@ for Index0 := 0 to |TestFiles|-1 by 1
 endfor
 </code></pre>
 
-<h3><a id="alternating-sequence" class="anchor" href="#alternating-sequence" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Generate alternating sequences</h3>
+<h3><a id="alternating-sequence" class="anchor" href="#alternating-sequence" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to generate alternating sequences</h3>
 <p>Alternating sequences come in handy to start with an algorithm in the middle and then making your way towards the lower and upper bound.</p>
 
 <pre><code>* Generate an alternating sequence e.g. [2, 3, 1, 4, 0] for NumberImages = 5
@@ -246,7 +247,7 @@ for Index0 := 0 to |AltSeq|-1 by 1
 endfor
 </code></pre>
 
-<h3><a id="stay-in-proc" class="anchor" href="#stay-in-proc" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Stay in procedure</h3>
+<h3><a id="stay-in-proc" class="anchor" href="#stay-in-proc" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to stay in procedure during debugging</h3>
 <p>To be able to inspect intermediary results it is useful to stay with the HDevelop debugging in a procedure. A breakpoint might not be sufficient as it might easily be skipped when pressing F5 too often. Continue by setting the program counter (PC) to the return statement manually by clicking with the mouse on the program line number.
 </p>
 
@@ -259,7 +260,13 @@ endwhile
 
 <pre><code>
 * complicated_procedure (: : : Result)
-Debug := true
+Debug := false
+* Set Debug to true only when in HDevelop (not in HDevEngine nor in exported code)
+SystemInformations := []
+dev_get_system ('engine_environment', SystemInformations)
+if (SystemInformations = 'HDevelop')
+  Debug := true
+endif
 * ...
 complicated_algorithm1 (IntermedResult1)
 if (Debug)
@@ -280,14 +287,16 @@ if (Debug)
 endif
 
 * Inspect IntermedResult1, or IntermedResult2, or IntermedResult3
-while (true)
-  stop ()
-endwhile
+if (Debug)
+    while (true)
+        stop ()
+    endwhile
+endif
 Result := IntermedResult1 + IntermedResult2 + IntermedResult3 
 return ()
 </code></pre>
 
-<h3><a id="left-hand-zeroes" class="anchor" href="#left-hand-zeroes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Left-hand zeros</h3>
+<h3><a id="left-hand-zeroes" class="anchor" href="#left-hand-zeroes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to generate left-hand zeros (e.g. 003)</h3>
 <p>Convert numbers to strings with left-hand zeros where needed using the <code>$'.DIGITS'</code> syntax (where DIGITS has to be replaced by the target number of digits)</p>
 
 <pre><code>Indices := [1,2,3,10,999]
